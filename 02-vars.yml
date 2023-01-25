@@ -6,6 +6,35 @@
     - name: print hello
       ansible.builtin.debug:
         msg: url = {{ url }}
+        vars:
+          url: task.example.com
+
+- name: demo on vars from fil on play level
+  hosts: all
+  connection: local
+  vars_files:
+    - sample-vars.yml
+    - tasks:
+        -name: print URL
+        ansible.builtin.debug:
+          msg: URL - {{ URL }}
+
+- name: vars from inventory file
+  hosts: all
+  connection: local
+  tasks:
+    -name: print URL
+    ansible.builtin.debug:
+      msg: URL = {{ URL }}
+
+- name: Access fact
+  hosts: all
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: print FACT
+      ansible.builtin.debug:
+        msg: Hostname = {{ ansible_hostname }}
 
 
 
